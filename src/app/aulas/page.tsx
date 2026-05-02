@@ -2,7 +2,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import AulaCard from '@/components/AulaCard'
 import { createClient } from '@/lib/supabase-server'
-import { Calendar, Search } from 'lucide-react'
+import { Calendar } from 'lucide-react'
 
 export const revalidate = 60
 

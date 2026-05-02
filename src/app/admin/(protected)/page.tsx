@@ -98,7 +98,7 @@ export default async function AdminDashboard() {
           <h2 className="font-bold text-gray-800 mb-4">Últimas Reservas</h2>
           {ultimasReservas && ultimasReservas.length > 0 ? (
             <div className="flex flex-col gap-3">
-              {ultimasReservas.map((reserva: any) => (
+              {ultimasReservas.map((reserva: { id: string; cliente_nome: string; status: string; valor_pago: number; aulas?: { titulo: string } }) => (
                 <div key={reserva.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                   <div>
                     <p className="text-sm font-medium text-gray-800">{reserva.cliente_nome}</p>

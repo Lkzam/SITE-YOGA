@@ -1,0 +1,3 @@
+id,aula_id,cliente_nome,cliente_email,cliente_telefone,cliente_cpf,status,pagamento_id,pagamento_url,valor_pago,created_at
+81cbb48d-3b08-4fde-ac4e-88815de78158,522d44da-5cda-46d8-9673-639a31ca078f,Luca Mazieiro,lucamr150405@gmail.com,(19) 97160-1315,44339378860,pendente,bill_R3z21KZGTUTWjBqL03HRwxqG,https://app.abacatepay.com/pay/bill_R3z21KZGTUTWjBqL03HRwxqG,,2026-04-09 19:49:54.436251+00
+b2e62b0b-6fb9-41d7-8343-92ac434666a5,522d44da-5cda-46d8-9673-639a31ca078f,Luca Mazieiro Ribeiro,lucamr150405@gmail.com,(19) 97160-1315,44339378860,pendente,bill_kD3WKT4QBRpCN1jTCcADGwFK,https://app.abacatepay.com/pay/bill_kD3WKT4QBRpCN1jTCcADGwFK,,2026-04-09 18:39:00.007991+00

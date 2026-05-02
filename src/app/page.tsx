@@ -169,7 +169,7 @@ export default function Home() {
                   <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed mb-4">"{dep.texto}"</p>
+              <p className="text-gray-600 text-sm leading-relaxed mb-4">&ldquo;{dep.texto}&rdquo;</p>
               <p className="text-green-800 font-semibold text-sm">— {dep.nome}</p>
             </div>
           ))}

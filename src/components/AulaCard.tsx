@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Calendar, Clock, MapPin, Users, Tag } from 'lucide-react'
+import { Calendar, Clock, MapPin, Users } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 

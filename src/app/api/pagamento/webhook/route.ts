@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
     const { event, data } = body
 
     if (event === 'billing.paid' || event === 'BILLING_PAID') {
-      const pagamentoId = data?.id || data?.billing?.id
       const externalId = data?.products?.[0]?.externalId || data?.billing?.products?.[0]?.externalId
 
       if (!externalId) {
