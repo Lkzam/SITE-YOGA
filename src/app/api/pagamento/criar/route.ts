@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (erroReserva || !reserva) {
-    return NextResponse.json({ erro: 'Erro ao criar reserva' }, { status: 500 })
+    return NextResponse.json({ erro: 'Erro ao criar reserva', detalhe: erroReserva?.message, codigo: erroReserva?.code }, { status: 500 })
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL
