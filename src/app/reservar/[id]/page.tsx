@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { createClient } from '@/lib/supabase-client'
 import { Calendar, Clock, MapPin, Users, ArrowLeft, Lock } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -37,19 +36,17 @@ export default function ReservarPage() {
   })
 
   useEffect(() => {
-    const supabase = createClient()
-    supabase
-      .from('aulas')
-      .select('*')
-      .eq('id', id)
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) {
-          router.push('/aulas')
-          return
-        }
+    fetch(`/api/aulas/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Aula não encontrada')
+        return res.json()
+      })
+      .then((data) => {
         setAula(data)
         setCarregando(false)
+      })
+      .catch(() => {
+        router.push('/aulas')
       })
   }, [id, router])
 
