@@ -45,7 +45,8 @@ export default function ReservarPage() {
       .single()
       .then(({ data, error }) => {
         if (error || !data) {
-          router.push('/aulas')
+          setErro('Erro ao carregar aula: ' + (error?.message || 'Aula não encontrada. ID: ' + id))
+          setCarregando(false)
           return
         }
         setAula(data)
@@ -109,7 +110,16 @@ export default function ReservarPage() {
     )
   }
 
-  if (!aula) return null
+  if (!aula) return (
+    <main className="min-h-screen">
+      <Navbar />
+      <div className="max-w-xl mx-auto px-4 py-20 text-center">
+        <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-600 text-sm">
+          {erro || 'Aula não encontrada.'}
+        </div>
+      </div>
+    </main>
+  )
 
   const dataFormatada = format(parseISO(aula.data), "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })
 
