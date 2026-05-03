@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { createClient } from '@/lib/supabase-client'
 import { Calendar, Clock, MapPin, Users, ArrowLeft, Lock } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
@@ -37,22 +36,22 @@ export default function ReservarPage() {
   })
 
   useEffect(() => {
-    const supabase = createClient()
-    supabase
-      .from('aulas')
-      .select('*')
-      .eq('id', id)
-      .single()
-      .then(({ data, error }) => {
-        if (error || !data) {
-          setErro('Erro ao carregar aula: ' + (error?.message || 'Aula não encontrada. ID: ' + id))
+    fetch(`/api/aulas?id=${id}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.erro) {
+          setErro('Erro ao carregar aula: ' + data.erro)
           setCarregando(false)
           return
         }
         setAula(data)
         setCarregando(false)
       })
-  }, [id, router])
+      .catch(() => {
+        setErro('Erro de conexão ao carregar aula.')
+        setCarregando(false)
+      })
+  }, [id])
 
   function formatarCPF(valor: string) {
     return valor
