@@ -1,4 +1,4 @@
-import { Leaf, Phone, Mail, MapPin, Instagram } from 'lucide-react'
+import { Leaf, Phone, Mail, MapPin, AtSign } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -38,7 +38,7 @@ export default function Footer() {
               <span>intuiryoga26@gmail.com</span>
             </div>
             <div className="flex items-center gap-2 text-cream/70 text-sm">
-              <Instagram size={14} className="text-terra shrink-0" />
+              <AtSign size={14} className="text-terra shrink-0" />
               <span>@intuiryoga</span>
             </div>
             <div className="flex items-center gap-2 text-cream/70 text-sm">
