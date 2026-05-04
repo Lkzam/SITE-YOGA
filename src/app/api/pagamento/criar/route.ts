@@ -44,8 +44,15 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (erroReserva || !reserva) {
-    return NextResponse.json({ erro: 'Erro ao criar reserva' }, { status: 500 })
+    const msg = erroReserva?.message || 'Erro ao criar reserva'
+    console.error('Erro ao criar reserva no Supabase:', erroReserva)
+    return NextResponse.json({ erro: msg }, { status: 500 })
   }
+
+  // Formata CPF com máscara para enviar ao AbacatePay (ex: "123.456.789-01")
+  const cpfFormatado = cpf
+    .replace(/\D/g, '')
+    .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
 
   try {
     // Cria cobrança PIX transparente no AbacatePay v2
@@ -56,7 +63,7 @@ export async function POST(request: NextRequest) {
         nome,
         email,
         celular: telefone.replace(/\D/g, ''),
-        cpf: cpf.replace(/\D/g, ''),
+        cpf: cpfFormatado,
       },
       externalId: reserva.id,
     })

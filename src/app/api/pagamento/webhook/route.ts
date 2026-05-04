@@ -11,10 +11,12 @@ export async function POST(request: NextRequest) {
     // Estrutura do webhook AbacatePay
     const { event, data } = body
 
-    if (event === 'billing.paid' || event === 'BILLING_PAID') {
-      const externalId = data?.products?.[0]?.externalId || data?.billing?.products?.[0]?.externalId
+    // AbacatePay v2: evento de PIX transparente confirmado
+    if (event === 'transparent.completed') {
+      const externalId = data?.externalId
 
       if (!externalId) {
+        console.error('Webhook: externalId não encontrado no payload', JSON.stringify(body))
         return NextResponse.json({ ok: false, erro: 'externalId não encontrado' }, { status: 400 })
       }
 
@@ -23,7 +25,7 @@ export async function POST(request: NextRequest) {
         .from('reservas')
         .update({
           status: 'pago',
-          valor_pago: (data?.amount || data?.billing?.amount || 0) / 100,
+          valor_pago: (data?.amount || 0) / 100,
         })
         .eq('id', externalId)
 
