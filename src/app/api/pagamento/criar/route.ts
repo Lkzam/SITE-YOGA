@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
 import { criarCobranca } from '@/lib/abacatepay'
+import { randomUUID } from 'crypto'
 
 export async function POST(request: NextRequest) {
   const supabase = await createServiceClient()
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
   const { data: reserva, error: erroReserva } = await supabase
     .from('reservas')
     .insert({
+      id: randomUUID(),
       aula_id: aulaId,
       cliente_nome: nome,
       cliente_email: email,
@@ -76,7 +78,8 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     // Se falhar o pagamento, remove a reserva
     await supabase.from('reservas').delete().eq('id', reserva.id)
-    console.error('Erro AbacatePay:', error)
-    return NextResponse.json({ erro: 'Erro ao criar link de pagamento. Tente novamente.' }, { status: 500 })
+    const mensagem = error instanceof Error ? error.message : String(error)
+    console.error('Erro AbacatePay:', mensagem)
+    return NextResponse.json({ erro: mensagem }, { status: 500 })
   }
 }
