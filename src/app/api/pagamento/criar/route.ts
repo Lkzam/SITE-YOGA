@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   const supabase = createServiceClient()
 
   const body = await request.json()
-  const { aulaId, nome, email, telefone, cpf } = body
+  const { aulaId, nome, email, telefone, cpf, token } = body
 
   if (!aulaId || !nome || !email || !telefone || !cpf) {
     return NextResponse.json({ erro: 'Preencha todos os campos obrigatórios' }, { status: 400 })
@@ -26,6 +26,26 @@ export async function POST(request: NextRequest) {
 
   if (aula.vagas_disponiveis <= 0) {
     return NextResponse.json({ erro: 'Não há vagas disponíveis para esta aula' }, { status: 400 })
+  }
+
+  // Determina o preço correto (pré-venda ou normal)
+  const hoje = new Date().toISOString().split('T')[0]
+  const emPrevenda = !!(
+    aula.prevenda &&
+    aula.prevenda_inicio &&
+    aula.prevenda_fim &&
+    aula.prevenda_inicio <= hoje &&
+    hoje <= aula.prevenda_fim
+  )
+
+  let precoFinal = aula.preco
+
+  if (emPrevenda) {
+    // Valida o token server-side para garantir segurança
+    if (!token || token.toUpperCase() !== aula.prevenda_token) {
+      return NextResponse.json({ erro: 'Token de pré-venda inválido' }, { status: 403 })
+    }
+    precoFinal = aula.prevenda_preco
   }
 
   // Cria a reserva com status pendente
@@ -57,8 +77,8 @@ export async function POST(request: NextRequest) {
   try {
     // Cria cobrança PIX transparente no AbacatePay v2
     const cobranca = await criarCobranca({
-      valor: Math.round(aula.preco * 100), // converte para centavos
-      descricao: `${aula.titulo} — ${aula.data} às ${aula.horario.slice(0, 5)}`,
+      valor: Math.round(precoFinal * 100), // converte para centavos
+      descricao: `${aula.titulo} — ${aula.data} às ${aula.horario.slice(0, 5)}${emPrevenda ? ' (Pré-venda)' : ''}`,
       cliente: {
         nome,
         email,
@@ -80,7 +100,7 @@ export async function POST(request: NextRequest) {
       brCodeBase64: cobranca.brCodeBase64,
       expiresAt: cobranca.expiresAt,
       reservaId: reserva.id,
-      valor: aula.preco,
+      valor: precoFinal,
     })
   } catch (error) {
     // Se falhar o pagamento, remove a reserva

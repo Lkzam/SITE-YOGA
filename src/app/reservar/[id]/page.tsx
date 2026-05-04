@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { Calendar, Clock, MapPin, Users, ArrowLeft, Lock, Copy, Check } from 'lucide-react'
+import { Calendar, Clock, MapPin, Users, ArrowLeft, Lock, Copy, Check, Key } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Link from 'next/link'
@@ -18,6 +18,10 @@ interface Aula {
   localizacao: string
   vagas_disponiveis: number
   preco: number
+  prevenda?: boolean
+  prevenda_inicio?: string
+  prevenda_fim?: string
+  prevenda_preco?: number
 }
 
 interface DadosPix {
@@ -37,6 +41,13 @@ export default function ReservarPage() {
   const [pix, setPix] = useState<DadosPix | null>(null)
   const [copiado, setCopiado] = useState(false)
 
+  // Fluxo de token pré-venda
+  const [emPrevenda, setEmPrevenda] = useState(false)
+  const [tokenInput, setTokenInput] = useState('')
+  const [tokenValido, setTokenValido] = useState(false)
+  const [validandoToken, setValidandoToken] = useState(false)
+  const [erroToken, setErroToken] = useState('')
+
   const [form, setForm] = useState({
     nome: '',
     email: '',
@@ -52,6 +63,16 @@ export default function ReservarPage() {
       })
       .then((data) => {
         setAula(data)
+        // Verifica se está em período de pré-venda
+        const hoje = new Date().toISOString().split('T')[0]
+        const prevenda = !!(
+          data.prevenda &&
+          data.prevenda_inicio &&
+          data.prevenda_fim &&
+          data.prevenda_inicio <= hoje &&
+          hoje <= data.prevenda_fim
+        )
+        setEmPrevenda(prevenda)
         setCarregando(false)
       })
       .catch(() => {
@@ -59,6 +80,11 @@ export default function ReservarPage() {
         setCarregando(false)
       })
   }, [id])
+
+  // Preço correto baseado no estado
+  const precoUsado = emPrevenda && tokenValido && aula?.prevenda_preco
+    ? aula.prevenda_preco
+    : aula?.preco ?? 0
 
   function formatarCPF(valor: string) {
     return valor
@@ -84,6 +110,30 @@ export default function ReservarPage() {
     setTimeout(() => setCopiado(false), 3000)
   }
 
+  async function validarToken(e: React.FormEvent) {
+    e.preventDefault()
+    setErroToken('')
+    setValidandoToken(true)
+
+    try {
+      const res = await fetch(`/api/aulas/${id}/validar-token`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: tokenInput.trim().toUpperCase() }),
+      })
+      const data = await res.json()
+      if (data.valido) {
+        setTokenValido(true)
+      } else {
+        setErroToken(data.erro || 'Token inválido. Verifique e tente novamente.')
+      }
+    } catch {
+      setErroToken('Erro de conexão. Tente novamente.')
+    } finally {
+      setValidandoToken(false)
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErro('')
@@ -93,7 +143,11 @@ export default function ReservarPage() {
       const response = await fetch('/api/pagamento/criar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ aulaId: id, ...form }),
+        body: JSON.stringify({
+          aulaId: id,
+          ...form,
+          token: emPrevenda && tokenValido ? tokenInput.trim().toUpperCase() : undefined,
+        }),
       })
 
       const data = await response.json()
@@ -153,7 +207,6 @@ export default function ReservarPage() {
               Escaneie o QR Code ou copie o código para pagar
             </p>
 
-            {/* Valor */}
             <div className="bg-green-50 rounded-xl p-3 mb-6">
               <p className="text-sm text-green-700 font-medium">Valor a pagar</p>
               <p className="text-3xl font-bold text-green-800">
@@ -162,7 +215,6 @@ export default function ReservarPage() {
               <p className="text-xs text-green-600 mt-1">{aula.titulo}</p>
             </div>
 
-            {/* QR Code */}
             {pix.brCodeBase64 && (
               <div className="flex justify-center mb-6">
                 <img
@@ -173,7 +225,6 @@ export default function ReservarPage() {
               </div>
             )}
 
-            {/* Código copia e cola */}
             <div className="mb-6">
               <p className="text-xs text-gray-500 mb-2 font-medium">PIX Copia e Cola</p>
               <div className="bg-gray-50 border border-gray-200 rounded-xl p-3 text-left">
@@ -214,6 +265,92 @@ export default function ReservarPage() {
     )
   }
 
+  // Tela de token (pré-venda ativa e token ainda não validado)
+  if (emPrevenda && !tokenValido) {
+    return (
+      <main className="min-h-screen">
+        <Navbar />
+        <section className="max-w-md mx-auto px-4 py-10">
+          <Link href="/aulas" className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-800 mb-6 text-sm font-medium">
+            <ArrowLeft size={16} /> Voltar às aulas
+          </Link>
+
+          <div className="card text-center">
+            <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Lock size={28} className="text-orange-500" />
+            </div>
+
+            <div className="inline-flex items-center gap-1.5 bg-orange-100 text-orange-700 text-xs font-semibold px-3 py-1 rounded-full mb-4">
+              PRÉ-VENDA EXCLUSIVA
+            </div>
+
+            <h1 className="text-xl font-bold text-gray-900 mb-2">{aula.titulo}</h1>
+            <p className="text-gray-500 text-sm mb-2">
+              Esta aula está em período de pré-venda.
+            </p>
+
+            {aula.prevenda_preco && (
+              <div className="bg-orange-50 rounded-xl p-3 mb-6">
+                <p className="text-sm text-orange-700 font-medium">Preço exclusivo pré-venda</p>
+                <div className="flex items-center justify-center gap-2 mt-1">
+                  <span className="text-2xl font-bold text-orange-600">
+                    R$ {aula.prevenda_preco.toFixed(2).replace('.', ',')}
+                  </span>
+                  <span className="text-sm text-gray-400 line-through">
+                    R$ {aula.preco.toFixed(2).replace('.', ',')}
+                  </span>
+                </div>
+              </div>
+            )}
+
+            <p className="text-gray-500 text-sm mb-6">
+              Digite o token de acesso para continuar com a reserva.
+            </p>
+
+            <form onSubmit={validarToken} className="flex flex-col gap-4">
+              <div className="relative">
+                <Key size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  className="input-field pl-9 text-center text-lg font-mono tracking-widest uppercase"
+                  placeholder="XXXXXXXX"
+                  value={tokenInput}
+                  onChange={(e) => setTokenInput(e.target.value.toUpperCase())}
+                  maxLength={8}
+                  required
+                  autoFocus
+                />
+              </div>
+
+              {erroToken && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-3 text-red-600 text-sm">
+                  {erroToken}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={validandoToken || tokenInput.length < 6}
+                className="flex items-center justify-center gap-2 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-semibold transition-colors disabled:opacity-50"
+              >
+                {validandoToken ? (
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <><Key size={16} /> Validar Token</>
+                )}
+              </button>
+            </form>
+
+            <p className="text-xs text-gray-400 mt-4">
+              Não tem o token? Fale com a professora para obter acesso à pré-venda.
+            </p>
+          </div>
+        </section>
+        <Footer />
+      </main>
+    )
+  }
+
+  // Tela de formulário principal
   return (
     <main className="min-h-screen">
       <Navbar />
@@ -225,11 +362,18 @@ export default function ReservarPage() {
 
         <h1 className="text-2xl md:text-3xl font-bold text-green-900 mb-8">Reservar sua vaga</h1>
 
+        {emPrevenda && tokenValido && (
+          <div className="bg-orange-50 border border-orange-200 rounded-xl p-3 mb-6 flex items-center gap-2 text-sm text-orange-700 font-medium">
+            <Check size={16} className="text-orange-500 shrink-0" />
+            Token validado! Você está reservando no preço exclusivo de pré-venda.
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Resumo da aula */}
           <div>
             <div className="card mb-4">
-              <div className="h-2 bg-gradient-to-r from-green-500 to-green-700 -mx-6 -mt-6 mb-6 rounded-t-2xl" />
+              <div className={`h-2 bg-gradient-to-r -mx-6 -mt-6 mb-6 rounded-t-2xl ${emPrevenda ? 'from-orange-400 to-orange-600' : 'from-green-500 to-green-700'}`} />
               <h2 className="text-lg font-bold text-green-900 mb-4">{aula.titulo}</h2>
 
               {aula.descricao && (
@@ -256,12 +400,19 @@ export default function ReservarPage() {
               </div>
             </div>
 
-            <div className="card bg-green-50 border-green-200">
+            <div className={`card ${emPrevenda ? 'bg-orange-50 border-orange-200' : 'bg-green-50 border-green-200'}`}>
               <div className="flex justify-between items-center">
-                <span className="text-green-800 font-semibold">Total a pagar</span>
-                <span className="text-2xl font-bold text-green-700">
-                  R$ {aula.preco.toFixed(2).replace('.', ',')}
-                </span>
+                <span className={`font-semibold ${emPrevenda ? 'text-orange-800' : 'text-green-800'}`}>Total a pagar</span>
+                <div className="text-right">
+                  <span className={`text-2xl font-bold ${emPrevenda ? 'text-orange-600' : 'text-green-700'}`}>
+                    R$ {precoUsado.toFixed(2).replace('.', ',')}
+                  </span>
+                  {emPrevenda && (
+                    <p className="text-xs text-gray-400 line-through">
+                      R$ {aula.preco.toFixed(2).replace('.', ',')}
+                    </p>
+                  )}
+                </div>
               </div>
               <div className="mt-3 flex items-center gap-2 text-xs text-gray-500">
                 <Lock size={12} />
@@ -332,7 +483,11 @@ export default function ReservarPage() {
               <button
                 type="submit"
                 disabled={enviando}
-                className="btn-primary flex items-center justify-center gap-2 mt-2"
+                className={`flex items-center justify-center gap-2 mt-2 py-3 rounded-xl font-semibold text-white transition-colors ${
+                  emPrevenda
+                    ? 'bg-orange-500 hover:bg-orange-600'
+                    : 'btn-primary'
+                }`}
               >
                 {enviando ? (
                   <>
@@ -342,7 +497,7 @@ export default function ReservarPage() {
                 ) : (
                   <>
                     <Lock size={16} />
-                    Gerar PIX — R$ {aula.preco.toFixed(2).replace('.', ',')}
+                    Gerar PIX — R$ {precoUsado.toFixed(2).replace('.', ',')}
                   </>
                 )}
               </button>

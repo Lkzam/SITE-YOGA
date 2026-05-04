@@ -29,23 +29,33 @@ export async function PUT(
   const supabase = createServiceClient()
 
   const body = await request.json()
-  const { titulo, descricao, data, horario, localizacao, vagas_total, preco } = body
+  const { titulo, descricao, data, horario, localizacao, vagas_total, preco,
+          prevenda, prevenda_inicio, prevenda_fim, prevenda_preco, novoToken } = body
 
   if (!titulo || !data || !horario || !localizacao || !vagas_total || !preco) {
     return NextResponse.json({ erro: 'Preencha todos os campos obrigatórios' }, { status: 400 })
   }
 
+  const updateData: Record<string, unknown> = {
+    titulo,
+    descricao: descricao || null,
+    data,
+    horario,
+    localizacao,
+    vagas_total: Number(vagas_total),
+    preco: parseFloat(preco),
+    prevenda: prevenda || false,
+    prevenda_inicio: prevenda ? prevenda_inicio : null,
+    prevenda_fim: prevenda ? prevenda_fim : null,
+    prevenda_preco: prevenda ? parseFloat(prevenda_preco) : null,
+  }
+
+  // Se um novo token foi gerado no cliente (ativou pré-venda pela primeira vez)
+  if (novoToken) updateData.prevenda_token = novoToken
+
   const { error } = await supabase
     .from('aulas')
-    .update({
-      titulo,
-      descricao: descricao || null,
-      data,
-      horario,
-      localizacao,
-      vagas_total: Number(vagas_total),
-      preco: parseFloat(preco),
-    })
+    .update(updateData)
     .eq('id', id)
 
   if (error) {

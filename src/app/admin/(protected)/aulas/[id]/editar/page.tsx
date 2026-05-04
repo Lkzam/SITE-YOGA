@@ -2,8 +2,13 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useParams } from 'next/navigation'
-import { ArrowLeft, Calendar, Clock, MapPin, Users, DollarSign, Save } from 'lucide-react'
+import { ArrowLeft, Calendar, Clock, MapPin, Users, DollarSign, Save, Tag, Copy, Check } from 'lucide-react'
 import Link from 'next/link'
+
+function gerarToken(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join('')
+}
 
 export default function EditarAulaPage() {
   const router = useRouter()
@@ -13,6 +18,8 @@ export default function EditarAulaPage() {
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState('')
   const [sucesso, setSucesso] = useState(false)
+  const [tokenAtual, setTokenAtual] = useState('')
+  const [tokenCopiado, setTokenCopiado] = useState(false)
 
   const [form, setForm] = useState({
     titulo: '',
@@ -22,6 +29,10 @@ export default function EditarAulaPage() {
     localizacao: '',
     vagas_total: '',
     preco: '',
+    prevenda: false,
+    prevenda_inicio: '',
+    prevenda_fim: '',
+    prevenda_preco: '',
   })
 
   useEffect(() => {
@@ -36,7 +47,12 @@ export default function EditarAulaPage() {
           localizacao: aula.localizacao || '',
           vagas_total: String(aula.vagas_total || ''),
           preco: String(aula.preco || ''),
+          prevenda: aula.prevenda || false,
+          prevenda_inicio: aula.prevenda_inicio || '',
+          prevenda_fim: aula.prevenda_fim || '',
+          prevenda_preco: aula.prevenda_preco ? String(aula.prevenda_preco) : '',
         })
+        setTokenAtual(aula.prevenda_token || '')
         setCarregando(false)
       })
       .catch(() => {
@@ -45,15 +61,42 @@ export default function EditarAulaPage() {
       })
   }, [id])
 
+  async function copiarToken() {
+    await navigator.clipboard.writeText(tokenAtual)
+    setTokenCopiado(true)
+    setTimeout(() => setTokenCopiado(false), 3000)
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErro('')
     setEnviando(true)
 
+    if (form.prevenda) {
+      if (!form.prevenda_inicio || !form.prevenda_fim || !form.prevenda_preco) {
+        setErro('Preencha todas as datas e o preço da pré-venda.')
+        setEnviando(false)
+        return
+      }
+      if (form.prevenda_fim <= form.prevenda_inicio) {
+        setErro('A data de fim da pré-venda deve ser após a data de início.')
+        setEnviando(false)
+        return
+      }
+      if (parseFloat(form.prevenda_preco) >= parseFloat(form.preco)) {
+        setErro('O preço da pré-venda deve ser menor que o preço normal.')
+        setEnviando(false)
+        return
+      }
+    }
+
+    // Se ativou prevenda e não tem token ainda, gera um novo
+    const novoToken = form.prevenda && !tokenAtual ? gerarToken() : undefined
+
     const res = await fetch(`/api/aulas/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ ...form, novoToken }),
     })
 
     const data = await res.json()
@@ -64,8 +107,9 @@ export default function EditarAulaPage() {
       return
     }
 
+    if (novoToken) setTokenAtual(novoToken)
     setSucesso(true)
-    setTimeout(() => router.push('/admin/aulas'), 1500)
+    setTimeout(() => router.push('/admin/aulas'), 2000)
   }
 
   if (carregando) {
@@ -93,6 +137,22 @@ export default function EditarAulaPage() {
           {sucesso && (
             <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-green-700 mb-6 text-sm font-medium">
               Aula atualizada com sucesso! Redirecionando...
+            </div>
+          )}
+
+          {/* Token atual (se existir) */}
+          {tokenAtual && form.prevenda && (
+            <div className="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-6">
+              <p className="text-xs text-orange-600 font-semibold mb-2 uppercase tracking-wide">Token de Pré-venda Atual</p>
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-mono text-xl font-bold text-orange-700 tracking-widest">{tokenAtual}</span>
+                <button
+                  onClick={copiarToken}
+                  className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-orange-200 text-orange-600 hover:bg-orange-100 transition-colors"
+                >
+                  {tokenCopiado ? <><Check size={13} /> Copiado</> : <><Copy size={13} /> Copiar</>}
+                </button>
+              </div>
             </div>
           )}
 
@@ -177,7 +237,7 @@ export default function EditarAulaPage() {
               </div>
               <div>
                 <label className="label flex items-center gap-1">
-                  <DollarSign size={13} className="text-green-600" /> Preço (R$) *
+                  <DollarSign size={13} className="text-green-600" /> Preço Normal (R$) *
                 </label>
                 <input
                   className="input-field"
@@ -190,6 +250,74 @@ export default function EditarAulaPage() {
                   required
                 />
               </div>
+            </div>
+
+            {/* Toggle pré-venda */}
+            <div className="border border-gray-200 rounded-xl p-4">
+              <label className="flex items-center justify-between cursor-pointer">
+                <div>
+                  <p className="font-semibold text-gray-800 text-sm flex items-center gap-2">
+                    <Tag size={15} className="text-orange-500" />
+                    Esta aula terá pré-venda
+                  </p>
+                  <p className="text-xs text-gray-400 mt-0.5">
+                    Clientes com token têm acesso exclusivo a um preço menor
+                  </p>
+                </div>
+                <div
+                  onClick={() => setForm({ ...form, prevenda: !form.prevenda })}
+                  className={`relative w-11 h-6 rounded-full transition-colors cursor-pointer ${form.prevenda ? 'bg-orange-500' : 'bg-gray-200'}`}
+                >
+                  <div className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${form.prevenda ? 'translate-x-5' : 'translate-x-0.5'}`} />
+                </div>
+              </label>
+
+              {form.prevenda && (
+                <div className="mt-4 flex flex-col gap-4 border-t border-gray-100 pt-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="label">Início da Pré-venda *</label>
+                      <input
+                        className="input-field"
+                        type="date"
+                        value={form.prevenda_inicio}
+                        onChange={(e) => setForm({ ...form, prevenda_inicio: e.target.value })}
+                        required={form.prevenda}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Fim da Pré-venda *</label>
+                      <input
+                        className="input-field"
+                        type="date"
+                        value={form.prevenda_fim}
+                        onChange={(e) => setForm({ ...form, prevenda_fim: e.target.value })}
+                        required={form.prevenda}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="label flex items-center gap-1">
+                      <DollarSign size={13} className="text-orange-500" /> Preço Pré-venda (R$) *
+                    </label>
+                    <input
+                      className="input-field"
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="Ex: 60.00 (menor que o preço normal)"
+                      value={form.prevenda_preco}
+                      onChange={(e) => setForm({ ...form, prevenda_preco: e.target.value })}
+                      required={form.prevenda}
+                    />
+                  </div>
+                  {!tokenAtual && (
+                    <div className="bg-orange-50 border border-orange-100 rounded-xl p-3 text-xs text-orange-700">
+                      🔑 Um novo token será gerado ao salvar.
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
             {erro && (

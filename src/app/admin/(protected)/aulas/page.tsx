@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase-server'
+import { createServiceClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { PlusCircle, Calendar } from 'lucide-react'
 import AulaAdminActions from './AulaAdminActions'
 
 export default async function AdminAulasPage() {
-  const supabase = await createClient()
+  const supabase = createServiceClient()
 
   const { data: aulas } = await supabase
     .from('aulas')
@@ -69,11 +69,18 @@ export default async function AdminAulasPage() {
                       </p>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                        aula.ativa ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
-                      }`}>
-                        {aula.ativa ? 'Ativa' : 'Inativa'}
-                      </span>
+                      <div className="flex flex-col gap-1">
+                        <span className={`text-xs px-2 py-1 rounded-full font-medium w-fit ${
+                          aula.ativa ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
+                        }`}>
+                          {aula.ativa ? 'Ativa' : 'Inativa'}
+                        </span>
+                        {aula.prevenda && aula.prevenda_token && (
+                          <span className="text-xs px-2 py-1 rounded-full font-medium bg-orange-100 text-orange-600 font-mono w-fit">
+                            🔑 {aula.prevenda_token}
+                          </span>
+                        )}
+                      </div>
                     </td>
                     <td className="px-6 py-4">
                       <AulaAdminActions aulaId={aula.id} ativa={aula.ativa} />
