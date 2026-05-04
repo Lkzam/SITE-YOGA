@@ -1,8 +1,9 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { createClient } from '@/lib/supabase-client'
-import { Trash2, ToggleLeft, ToggleRight } from 'lucide-react'
+import { Trash2, ToggleLeft, ToggleRight, Pencil } from 'lucide-react'
 import { useState } from 'react'
 
 export default function AulaAdminActions({ aulaId, ativa }: { aulaId: string; ativa: boolean }) {
@@ -28,6 +29,13 @@ export default function AulaAdminActions({ aulaId, ativa }: { aulaId: string; at
 
   return (
     <div className="flex items-center gap-2">
+      <Link
+        href={`/admin/aulas/${aulaId}/editar`}
+        className="p-1.5 rounded-lg text-blue-400 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+        title="Editar"
+      >
+        <Pencil size={16} />
+      </Link>
       <button
         onClick={toggleAtiva}
         disabled={carregando}
