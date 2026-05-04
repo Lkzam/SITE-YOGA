@@ -166,7 +166,7 @@ export default function ReservarPage() {
             {pix.brCodeBase64 && (
               <div className="flex justify-center mb-6">
                 <img
-                  src={`data:image/png;base64,${pix.brCodeBase64}`}
+                  src={pix.brCodeBase64.startsWith('data:') ? pix.brCodeBase64 : `data:image/png;base64,${pix.brCodeBase64}`}
                   alt="QR Code PIX"
                   className="w-56 h-56 border border-gray-200 rounded-xl"
                 />
