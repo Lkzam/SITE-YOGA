@@ -11,42 +11,35 @@ interface CriarCobrancaParams {
     cpf: string
   }
   externalId: string
-  urlRetorno: string
-  urlConclusao: string
 }
 
 interface RespostaCobranca {
   id: string
-  url: string
-  status: string
-  valor: number
+  brCode: string        // código PIX copia e cola
+  brCodeBase64: string  // QR code em base64
+  expiresAt: string     // data/hora de expiração
 }
 
 export async function criarCobranca(params: CriarCobrancaParams): Promise<RespostaCobranca> {
-  const response = await fetch(`${API_URL}/billing/create`, {
+  const response = await fetch(`${API_URL}/transparents/create`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${API_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      frequency: 'ONE_TIME',
-      methods: ['PIX'],
-      products: [
-        {
-          externalId: params.externalId,
-          name: params.descricao,
-          quantity: 1,
-          price: params.valor,
+      method: 'PIX',
+      data: {
+        amount: params.valor,
+        expiresIn: 3600, // 1 hora
+        description: params.descricao,
+        externalId: params.externalId,
+        customer: {
+          name: params.cliente.nome,
+          email: params.cliente.email,
+          cellphone: params.cliente.celular,
+          taxId: params.cliente.cpf,
         },
-      ],
-      returnUrl: params.urlRetorno,
-      completionUrl: params.urlConclusao,
-      customer: {
-        name: params.cliente.nome,
-        email: params.cliente.email,
-        cellphone: params.cliente.celular,
-        taxId: params.cliente.cpf,
       },
     }),
   })
@@ -56,12 +49,18 @@ export async function criarCobranca(params: CriarCobrancaParams): Promise<Respos
     throw new Error(`AbacatePay erro: ${erro}`)
   }
 
-  const data = await response.json()
+  const json = await response.json()
+
+  if (!json.success) {
+    throw new Error(`AbacatePay erro: ${json.error}`)
+  }
+
+  const data = json.data
 
   return {
-    id: data.data?.id || data.id,
-    url: data.data?.url || data.url,
-    status: data.data?.status || data.status,
-    valor: params.valor,
+    id: data.id,
+    brCode: data.brCode || data.pix?.brCode || '',
+    brCodeBase64: data.brCodeBase64 || data.pix?.brCodeBase64 || '',
+    expiresAt: data.expiresAt || '',
   }
 }

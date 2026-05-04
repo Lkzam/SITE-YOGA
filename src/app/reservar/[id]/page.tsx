@@ -1,10 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import { Calendar, Clock, MapPin, Users, ArrowLeft, Lock } from 'lucide-react'
+import { Calendar, Clock, MapPin, Users, ArrowLeft, Lock, Copy, Check } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import Link from 'next/link'
@@ -20,13 +20,22 @@ interface Aula {
   preco: number
 }
 
+interface DadosPix {
+  brCode: string
+  brCodeBase64: string
+  expiresAt: string
+  reservaId: string
+  valor: number
+}
+
 export default function ReservarPage() {
   const { id } = useParams()
-  const router = useRouter()
   const [aula, setAula] = useState<Aula | null>(null)
   const [carregando, setCarregando] = useState(true)
   const [enviando, setEnviando] = useState(false)
   const [erro, setErro] = useState('')
+  const [pix, setPix] = useState<DadosPix | null>(null)
+  const [copiado, setCopiado] = useState(false)
 
   const [form, setForm] = useState({
     nome: '',
@@ -68,6 +77,13 @@ export default function ReservarPage() {
       .slice(0, 15)
   }
 
+  async function copiarCodigo() {
+    if (!pix) return
+    await navigator.clipboard.writeText(pix.brCode)
+    setCopiado(true)
+    setTimeout(() => setCopiado(false), 3000)
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setErro('')
@@ -87,8 +103,7 @@ export default function ReservarPage() {
         return
       }
 
-      // Redireciona para o link de pagamento do AbacatePay
-      window.location.href = data.urlPagamento
+      setPix(data)
     } catch {
       setErro('Erro de conexão. Verifique sua internet e tente novamente.')
     } finally {
@@ -119,6 +134,85 @@ export default function ReservarPage() {
   )
 
   const dataFormatada = format(parseISO(aula.data), "EEEE, dd 'de' MMMM 'de' yyyy", { locale: ptBR })
+
+  // Tela de pagamento PIX
+  if (pix) {
+    return (
+      <main className="min-h-screen">
+        <Navbar />
+        <section className="max-w-lg mx-auto px-4 py-10">
+          <div className="card text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+            </div>
+
+            <h1 className="text-2xl font-bold text-green-900 mb-1">Pague via PIX</h1>
+            <p className="text-gray-500 text-sm mb-6">
+              Escaneie o QR Code ou copie o código para pagar
+            </p>
+
+            {/* Valor */}
+            <div className="bg-green-50 rounded-xl p-3 mb-6">
+              <p className="text-sm text-green-700 font-medium">Valor a pagar</p>
+              <p className="text-3xl font-bold text-green-800">
+                R$ {pix.valor.toFixed(2).replace('.', ',')}
+              </p>
+              <p className="text-xs text-green-600 mt-1">{aula.titulo}</p>
+            </div>
+
+            {/* QR Code */}
+            {pix.brCodeBase64 && (
+              <div className="flex justify-center mb-6">
+                <img
+                  src={`data:image/png;base64,${pix.brCodeBase64}`}
+                  alt="QR Code PIX"
+                  className="w-56 h-56 border border-gray-200 rounded-xl"
+                />
+              </div>
+            )}
+
+            {/* Código copia e cola */}
+            <div className="mb-6">
+              <p className="text-xs text-gray-500 mb-2 font-medium">PIX Copia e Cola</p>
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-3 text-left">
+                <p className="text-xs text-gray-600 break-all font-mono leading-relaxed">
+                  {pix.brCode}
+                </p>
+              </div>
+              <button
+                onClick={copiarCodigo}
+                className="mt-3 w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-green-200 text-green-700 font-semibold text-sm hover:bg-green-50 transition-colors"
+              >
+                {copiado ? (
+                  <><Check size={16} /> Código copiado!</>
+                ) : (
+                  <><Copy size={16} /> Copiar código PIX</>
+                )}
+              </button>
+            </div>
+
+            <div className="border-t border-gray-100 pt-4">
+              <p className="text-xs text-gray-400 mb-4">
+                Após o pagamento, sua vaga será confirmada automaticamente. Você receberá uma confirmação no e-mail <strong>{form.email}</strong>.
+              </p>
+              <Link
+                href="/confirmacao"
+                className="block w-full text-center py-3 rounded-xl bg-green-700 text-white font-semibold text-sm hover:bg-green-800 transition-colors"
+              >
+                Já paguei — Ver confirmação
+              </Link>
+              <Link href="/aulas" className="block text-center text-xs text-gray-400 mt-3 hover:text-gray-600">
+                Voltar às aulas
+              </Link>
+            </div>
+          </div>
+        </section>
+        <Footer />
+      </main>
+    )
+  }
 
   return (
     <main className="min-h-screen">
@@ -248,7 +342,7 @@ export default function ReservarPage() {
                 ) : (
                   <>
                     <Lock size={16} />
-                    Ir para Pagamento — R$ {aula.preco.toFixed(2).replace('.', ',')}
+                    Gerar PIX — R$ {aula.preco.toFixed(2).replace('.', ',')}
                   </>
                 )}
               </button>

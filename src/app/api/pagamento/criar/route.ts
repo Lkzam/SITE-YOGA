@@ -44,13 +44,11 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (erroReserva || !reserva) {
-    return NextResponse.json({ erro: 'Erro ao criar reserva', detalhe: erroReserva?.message, codigo: erroReserva?.code }, { status: 500 })
+    return NextResponse.json({ erro: 'Erro ao criar reserva' }, { status: 500 })
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL
-
   try {
-    // Cria cobrança no AbacatePay
+    // Cria cobrança PIX transparente no AbacatePay v2
     const cobranca = await criarCobranca({
       valor: Math.round(aula.preco * 100), // converte para centavos
       descricao: `${aula.titulo} — ${aula.data} às ${aula.horario.slice(0, 5)}`,
@@ -61,20 +59,22 @@ export async function POST(request: NextRequest) {
         cpf: cpf.replace(/\D/g, ''),
       },
       externalId: reserva.id,
-      urlRetorno: `${appUrl}/aulas`,
-      urlConclusao: `${appUrl}/confirmacao`,
     })
 
-    // Salva o ID e URL de pagamento na reserva
+    // Salva o ID do pagamento na reserva
     await supabase
       .from('reservas')
-      .update({
-        pagamento_id: cobranca.id,
-        pagamento_url: cobranca.url,
-      })
+      .update({ pagamento_id: cobranca.id })
       .eq('id', reserva.id)
 
-    return NextResponse.json({ urlPagamento: cobranca.url })
+    // Retorna dados do PIX para exibir na tela
+    return NextResponse.json({
+      brCode: cobranca.brCode,
+      brCodeBase64: cobranca.brCodeBase64,
+      expiresAt: cobranca.expiresAt,
+      reservaId: reserva.id,
+      valor: aula.preco,
+    })
   } catch (error) {
     // Se falhar o pagamento, remove a reserva
     await supabase.from('reservas').delete().eq('id', reserva.id)
