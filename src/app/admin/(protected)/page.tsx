@@ -48,7 +48,7 @@ export default async function AdminDashboard() {
           <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
           <p className="text-gray-500 text-sm">Visão geral do seu estúdio</p>
         </div>
-        <Link href="/admin/aulas/nova" className="btn-primary text-sm">
+        <Link href="/admin/aulas/nova" className="btn-admin text-sm">
           + Nova Aula
         </Link>
       </div>

@@ -333,7 +333,7 @@ export default function EditarAulaPage() {
               <button
                 type="submit"
                 disabled={enviando || sucesso}
-                className="btn-primary flex-1 flex items-center justify-center gap-2"
+                className="btn-admin flex-1 flex items-center justify-center gap-2"
               >
                 {enviando ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

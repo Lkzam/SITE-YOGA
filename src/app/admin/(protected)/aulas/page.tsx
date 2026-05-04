@@ -18,7 +18,7 @@ export default async function AdminAulasPage() {
           <h1 className="text-2xl font-bold text-gray-800">Gerenciar Aulas</h1>
           <p className="text-gray-500 text-sm">Todas as aulas cadastradas</p>
         </div>
-        <Link href="/admin/aulas/nova" className="btn-primary text-sm">
+        <Link href="/admin/aulas/nova" className="btn-admin text-sm">
           <span className="flex items-center gap-2"><PlusCircle size={16} /> Nova Aula</span>
         </Link>
       </div>
@@ -95,7 +95,7 @@ export default async function AdminAulasPage() {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
           <Calendar size={40} className="text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500 mb-4">Nenhuma aula cadastrada ainda.</p>
-          <Link href="/admin/aulas/nova" className="btn-primary text-sm inline-block">
+          <Link href="/admin/aulas/nova" className="btn-admin text-sm inline-block">
             Criar primeira aula
           </Link>
         </div>

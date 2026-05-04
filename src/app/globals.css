@@ -3,10 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --verde-escuro: #3d6b52;
-  --verde-medio: #5b8a6f;
-  --verde-claro: #7fb99a;
-  --verde-suave: #c8e6d5;
+  --cream: #f7f5f2;
+  --cream-dark: #ede9e3;
+  --plum: #290f27;
+  --plum-light: #3d1a3a;
+  --sage: #c6d6c5;
+  --sage-light: #e8edea;
+  --terra: #d9a48e;
+  --terra-hover: #c9927b;
+  --muted: #a8a8a8;
+
+  /* Legado (admin) */
+  --verde-escuro: #1f5c42;
+  --verde-medio: #267351;
+  --verde-claro: #87c4a8;
+  --verde-suave: #dceee5;
   --verde-bg: #f0f7f4;
   --branco: #ffffff;
   --cinza-texto: #4a5568;
@@ -24,26 +35,36 @@ html {
 }
 
 body {
-  background-color: var(--verde-bg);
-  color: var(--cinza-texto);
+  background-color: var(--cream);
+  color: var(--plum);
 }
 
+/* Botão principal — terracota (site público) */
 .btn-primary {
-  @apply bg-green-700 hover:bg-green-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg;
+  @apply bg-terra hover:bg-terra-hover text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg;
 }
 
 .btn-secondary {
-  @apply bg-white hover:bg-green-50 text-green-700 border-2 border-green-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200;
+  @apply bg-white hover:bg-cream text-plum border-2 border-plum font-semibold py-3 px-6 rounded-xl transition-all duration-200;
+}
+
+.btn-plum {
+  @apply bg-plum hover:bg-plum-light text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg;
+}
+
+/* Admin — botão verde original */
+.btn-admin {
+  @apply bg-green-700 hover:bg-green-800 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg;
 }
 
 .card {
-  @apply bg-white rounded-2xl shadow-sm border border-green-100 p-6;
+  @apply bg-white rounded-2xl shadow-sm border border-sage p-6;
 }
 
 .input-field {
-  @apply w-full border border-green-200 rounded-xl px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent bg-white transition-all;
+  @apply w-full border border-sage rounded-xl px-4 py-3 text-plum focus:outline-none focus:ring-2 focus:ring-terra focus:border-transparent bg-white transition-all;
 }
 
 .label {
-  @apply block text-sm font-medium text-green-800 mb-1;
+  @apply block text-sm font-medium text-plum mb-1;
 }
