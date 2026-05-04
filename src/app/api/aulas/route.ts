@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
 
 export async function GET(request: NextRequest) {
-  const supabase = await createServiceClient()
+  const supabase = createServiceClient()
   const { searchParams } = new URL(request.url)
   const id = searchParams.get('id')
 
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = await createServiceClient()
+  const supabase = createServiceClient()
 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) {

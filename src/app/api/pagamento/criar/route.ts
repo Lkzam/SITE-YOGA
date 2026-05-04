@@ -4,7 +4,7 @@ import { criarCobranca } from '@/lib/abacatepay'
 import { randomUUID } from 'crypto'
 
 export async function POST(request: NextRequest) {
-  const supabase = await createServiceClient()
+  const supabase = createServiceClient()
 
   const body = await request.json()
   const { aulaId, nome, email, telefone, cpf } = body

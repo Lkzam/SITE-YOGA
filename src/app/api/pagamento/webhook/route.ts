@@ -3,7 +3,7 @@ import { createServiceClient } from '@/lib/supabase-server'
 
 // Webhook do AbacatePay — chamado automaticamente quando o pagamento é confirmado
 export async function POST(request: NextRequest) {
-  const supabase = await createServiceClient()
+  const supabase = createServiceClient()
 
   try {
     const body = await request.json()
