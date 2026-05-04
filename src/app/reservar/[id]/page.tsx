@@ -167,17 +167,17 @@ export default function ReservarPage() {
 
   if (carregando) {
     return (
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-cream">
         <Navbar />
         <div className="flex items-center justify-center py-32">
-          <div className="w-10 h-10 border-4 border-green-300 border-t-green-700 rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-sage border-t-plum rounded-full animate-spin" />
         </div>
       </main>
     )
   }
 
   if (!aula) return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-cream">
       <Navbar />
       <div className="max-w-xl mx-auto px-4 py-20 text-center">
         <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-red-600 text-sm">
@@ -192,7 +192,7 @@ export default function ReservarPage() {
   // Tela de pagamento PIX
   if (pix) {
     return (
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-cream">
         <Navbar />
         <section className="max-w-lg mx-auto px-4 py-10">
           <div className="card text-center">
@@ -268,7 +268,7 @@ export default function ReservarPage() {
   // Tela de token (pré-venda ativa e token ainda não validado)
   if (emPrevenda && !tokenValido) {
     return (
-      <main className="min-h-screen">
+      <main className="min-h-screen bg-cream">
         <Navbar />
         <section className="max-w-md mx-auto px-4 py-10">
           <Link href="/aulas" className="inline-flex items-center gap-2 text-orange-600 hover:text-orange-800 mb-6 text-sm font-medium">
@@ -352,7 +352,7 @@ export default function ReservarPage() {
 
   // Tela de formulário principal
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-cream">
       <Navbar />
 
       <section className="max-w-4xl mx-auto px-4 py-10">

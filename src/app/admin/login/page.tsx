@@ -32,24 +32,24 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-green-800 to-green-600 flex items-center justify-center px-4">
+    <main className="min-h-screen bg-plum flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/10 rounded-2xl mb-4">
-            <Leaf className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-terra/20 border border-terra/30 rounded-2xl mb-4">
+            <Leaf className="w-8 h-8 text-terra" />
           </div>
           <h1 className="text-2xl font-bold text-white">Área do Gerente</h1>
-          <p className="text-green-200 text-sm mt-1">Yoga com Ana</p>
+          <p className="text-cream/60 text-sm mt-1">Intuir Yoga</p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          <h2 className="text-lg font-bold text-green-900 mb-6">Entrar na conta</h2>
+        <div className="bg-cream rounded-2xl shadow-xl p-8">
+          <h2 className="text-lg font-bold text-plum mb-6">Entrar na conta</h2>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-4">
             <div>
               <label className="label">E-mail</label>
               <div className="relative">
-                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                 <input
                   type="email"
                   className="input-field pl-9"
@@ -64,7 +64,7 @@ export default function AdminLoginPage() {
             <div>
               <label className="label">Senha</label>
               <div className="relative">
-                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
                 <input
                   type={mostrarSenha ? 'text' : 'password'}
                   className="input-field pl-9 pr-10"
@@ -76,7 +76,7 @@ export default function AdminLoginPage() {
                 <button
                   type="button"
                   onClick={() => setMostrarSenha(!mostrarSenha)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-plum"
                 >
                   {mostrarSenha ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={carregando}
-              className="btn-admin flex items-center justify-center gap-2 mt-2"
+              className="btn-plum flex items-center justify-center gap-2 mt-2"
             >
               {carregando ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />

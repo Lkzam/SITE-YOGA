@@ -35,7 +35,7 @@ export default async function AdminDashboard() {
     .limit(5)
 
   const stats = [
-    { label: 'Aulas Futuras', valor: totalAulas || 0, icone: Calendar, cor: 'text-green-600', bg: 'bg-green-100' },
+    { label: 'Eventos Futuros', valor: totalAulas || 0, icone: Calendar, cor: 'text-terra', bg: 'bg-terra-light' },
     { label: 'Aulas Hoje', valor: aulasHoje || 0, icone: TrendingUp, cor: 'text-blue-600', bg: 'bg-blue-100' },
     { label: 'Reservas Pagas', valor: totalReservas || 0, icone: Users, cor: 'text-purple-600', bg: 'bg-purple-100' },
     { label: 'Total Recebido', valor: `R$ ${totalRecebido.toFixed(2).replace('.', ',')}`, icone: DollarSign, cor: 'text-emerald-600', bg: 'bg-emerald-100' },
@@ -45,8 +45,8 @@ export default async function AdminDashboard() {
     <div>
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-          <p className="text-gray-500 text-sm">Visão geral do seu estúdio</p>
+          <h1 className="text-2xl font-bold text-plum">Dashboard</h1>
+          <p className="text-muted text-sm">Visão geral do Intuir Yoga</p>
         </div>
         <Link href="/admin/aulas/nova" className="btn-admin text-sm">
           + Nova Aula
@@ -59,8 +59,8 @@ export default async function AdminDashboard() {
             <div className={`w-10 h-10 ${stat.bg} rounded-xl flex items-center justify-center mb-3`}>
               <stat.icone size={20} className={stat.cor} />
             </div>
-            <p className="text-2xl font-bold text-gray-800">{stat.valor}</p>
-            <p className="text-gray-500 text-sm">{stat.label}</p>
+            <p className="text-2xl font-bold text-plum">{stat.valor}</p>
+            <p className="text-muted text-sm">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -68,16 +68,16 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="font-bold text-gray-800">Próximas Aulas</h2>
-            <Link href="/admin/aulas" className="text-green-600 text-sm hover:text-green-800">Ver todas</Link>
+            <h2 className="font-bold text-plum">Próximos Eventos</h2>
+            <Link href="/admin/aulas" className="text-terra text-sm hover:text-terra-dark">Ver todas</Link>
           </div>
           {proximasAulas && proximasAulas.length > 0 ? (
             <div className="flex flex-col gap-3">
               {proximasAulas.map((aula) => (
                 <div key={aula.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                   <div>
-                    <p className="text-sm font-medium text-gray-800">{aula.titulo}</p>
-                    <p className="text-xs text-gray-400">{aula.data} às {aula.horario.slice(0, 5)}</p>
+                    <p className="text-sm font-medium text-plum">{aula.titulo}</p>
+                    <p className="text-xs text-muted">{aula.data} às {aula.horario.slice(0, 5)}</p>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                     aula.vagas_disponiveis === 0 ? 'bg-red-100 text-red-600'
@@ -95,14 +95,14 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-          <h2 className="font-bold text-gray-800 mb-4">Últimas Reservas</h2>
+          <h2 className="font-bold text-plum mb-4">Últimas Reservas</h2>
           {ultimasReservas && ultimasReservas.length > 0 ? (
             <div className="flex flex-col gap-3">
               {ultimasReservas.map((reserva: { id: string; cliente_nome: string; status: string; valor_pago: number; aulas?: { titulo: string } }) => (
                 <div key={reserva.id} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
                   <div>
-                    <p className="text-sm font-medium text-gray-800">{reserva.cliente_nome}</p>
-                    <p className="text-xs text-gray-400">{reserva.aulas?.titulo}</p>
+                    <p className="text-sm font-medium text-plum">{reserva.cliente_nome}</p>
+                    <p className="text-xs text-muted">{reserva.aulas?.titulo}</p>
                   </div>
                   <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                     reserva.status === 'pago' ? 'bg-green-100 text-green-600'
