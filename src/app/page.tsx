@@ -73,8 +73,12 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div className="flex justify-center md:sticky md:top-24">
             <div className="relative">
-              <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl bg-gradient-to-br from-sage to-sage-dark flex items-center justify-center">
-                <span className="text-9xl">👩</span>
+              <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden">
+                <img
+                  src="/millena-bonomi.jpg"
+                  alt="Millena Bonomi — Instrutora de Yoga"
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-lg p-4 border border-sage">
                 <p className="text-plum font-bold text-sm">Millena Bonomi</p>
