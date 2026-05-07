@@ -23,13 +23,13 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="w-64 bg-plum text-white flex flex-col min-h-screen">
-      <div className="p-6 border-b border-plum-light">
+    <aside className="w-64 bg-sage text-plum flex flex-col min-h-screen">
+      <div className="p-6 border-b border-sage-dark">
         <div className="flex items-center gap-2">
           <img src="/logo.svg" alt="Intuir Yoga" className="w-7 h-7" />
           <div>
-            <p className="font-bold text-white text-sm">Intuir Yoga</p>
-            <p className="text-cream/50 text-xs">Painel Admin</p>
+            <p className="font-bold text-plum text-sm">Intuir Yoga</p>
+            <p className="text-plum/50 text-xs">Painel Admin</p>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@ export default function AdminSidebar() {
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 ativo
                   ? 'bg-terra text-white'
-                  : 'text-cream/70 hover:bg-plum-light hover:text-white'
+                  : 'text-plum/70 hover:bg-sage-dark hover:text-plum'
               }`}
             >
               <Icone size={18} />
@@ -53,11 +53,11 @@ export default function AdminSidebar() {
           )
         })}
 
-        <div className="mt-4 pt-4 border-t border-plum-light">
+        <div className="mt-4 pt-4 border-t border-sage-dark">
           <Link
             href="/"
             target="_blank"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-cream/70 hover:bg-plum-light hover:text-white transition-all"
+            className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-plum/70 hover:bg-sage-dark hover:text-plum transition-all"
           >
             <ExternalLink size={18} />
             Ver Site
@@ -65,10 +65,10 @@ export default function AdminSidebar() {
         </div>
       </nav>
 
-      <div className="p-4 border-t border-plum-light">
+      <div className="p-4 border-t border-sage-dark">
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-cream/70 hover:bg-red-900/40 hover:text-red-300 transition-all w-full"
+          className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-plum/70 hover:bg-red-100 hover:text-red-600 transition-all w-full"
         >
           <LogOut size={18} />
           Sair

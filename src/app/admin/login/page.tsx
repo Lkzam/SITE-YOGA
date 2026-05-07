@@ -32,14 +32,14 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-plum flex items-center justify-center px-4">
+    <main className="min-h-screen bg-sage flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-terra/20 border border-terra/30 rounded-2xl mb-4">
             <img src="/logo.svg" alt="Intuir Yoga" className="w-10 h-10" />
           </div>
-          <h1 className="text-2xl font-bold text-white">Área do Gerente</h1>
-          <p className="text-cream/60 text-sm mt-1">Intuir Yoga</p>
+          <h1 className="text-2xl font-bold text-plum">Área do Gerente</h1>
+          <p className="text-plum/60 text-sm mt-1">Intuir Yoga</p>
         </div>
 
         <div className="bg-cream rounded-2xl shadow-xl p-8">

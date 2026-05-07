@@ -9,22 +9,22 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-plum text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      <section className="relative bg-sage overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
           <div className="absolute top-10 left-10 w-64 h-64 rounded-full bg-terra blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-sage blur-3xl" />
+          <div className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-cream blur-3xl" />
         </div>
         <div className="relative max-w-6xl mx-auto px-4 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 text-center md:text-left">
-            <span className="inline-block bg-terra/20 text-terra-light border border-terra/30 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            <span className="inline-block bg-terra/20 text-terra-dark border border-terra/30 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               Bem-vindo ao seu espaço de paz
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-white">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-plum">
               Experiências de yoga para{' '}
-              <span className="text-terra">transformar</span>{' '}
+              <span className="text-terra-dark">transformar</span>{' '}
               seu dia
             </h1>
-            <p className="text-cream/80 text-lg mb-8 max-w-md leading-relaxed">
+            <p className="text-plum/70 text-lg mb-8 max-w-md leading-relaxed">
               Mais do que uma aula, um convite para pausar, respirar e se reconectar.
               Práticas acessíveis, em cenários inspiradores, para todos os níveis.
             </p>
@@ -32,7 +32,7 @@ export default function Home() {
               <Link href="/aulas" className="bg-terra hover:bg-terra-hover text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
                 Ver eventos disponíveis <ChevronRight size={18} />
               </Link>
-              <Link href="#sobre" className="border-2 border-cream/30 text-cream hover:bg-white/10 font-semibold py-3 px-8 rounded-xl transition-all text-center">
+              <Link href="#sobre" className="border-2 border-plum/30 text-plum hover:bg-plum/10 font-semibold py-3 px-8 rounded-xl transition-all text-center">
                 Conhecer a Professora
               </Link>
             </div>
@@ -251,12 +251,12 @@ export default function Home() {
       </section>
 
       {/* CTA */}
-      <section className="bg-plum py-16">
+      <section className="bg-sage py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-plum mb-4">
             Pronta para começar sua jornada?
           </h2>
-          <p className="text-cream/70 mb-8 text-lg">
+          <p className="text-plum/70 mb-8 text-lg">
             Reserve sua vaga em um de nossos eventos e dê o primeiro passo rumo a mais presença e equilíbrio.
           </p>
           <Link

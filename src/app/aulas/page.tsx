@@ -24,14 +24,14 @@ export default async function AulasPage() {
       <Navbar />
 
       {/* Header */}
-      <section className="bg-plum text-white py-16">
+      <section className="bg-sage py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-terra/20 border border-terra/30 px-4 py-1.5 rounded-full mb-4">
-            <Calendar size={16} className="text-terra" />
-            <span className="text-sm font-medium text-cream">Agenda de Eventos</span>
+            <Calendar size={16} className="text-terra-dark" />
+            <span className="text-sm font-medium text-plum">Agenda de Eventos</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white">Eventos Disponíveis</h1>
-          <p className="text-cream/70 max-w-lg mx-auto">
+          <h1 className="text-3xl md:text-4xl font-bold mb-3 text-plum">Eventos Disponíveis</h1>
+          <p className="text-plum/70 max-w-lg mx-auto">
             Escolha a experiência que melhor se encaixa na sua rotina e reserve sua vaga agora mesmo.
           </p>
         </div>
