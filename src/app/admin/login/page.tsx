@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase-client'
-import { Leaf, Lock, Mail, Eye, EyeOff } from 'lucide-react'
+import { Lock, Mail, Eye, EyeOff } from 'lucide-react'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -36,7 +36,7 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-terra/20 border border-terra/30 rounded-2xl mb-4">
-            <Leaf className="w-8 h-8 text-terra" />
+            <img src="/logo.svg" alt="Intuir Yoga" className="w-10 h-10" />
           </div>
           <h1 className="text-2xl font-bold text-white">Área do Gerente</h1>
           <p className="text-cream/60 text-sm mt-1">Intuir Yoga</p>

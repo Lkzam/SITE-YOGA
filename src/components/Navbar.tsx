@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Menu, X, Leaf } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 export default function Navbar() {
   const [menuAberto, setMenuAberto] = useState(false)
@@ -12,7 +12,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2">
-            <Leaf className="text-terra w-6 h-6" />
+            <img src="/logo.svg" alt="Intuir Yoga" className="w-8 h-8" />
             <span className="text-xl font-bold text-plum tracking-wide">INTUIR YOGA</span>
           </Link>
 

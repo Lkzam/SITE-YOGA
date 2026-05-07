@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase-client'
-import { LayoutDashboard, Calendar, PlusCircle, LogOut, Leaf, ExternalLink } from 'lucide-react'
+import { LayoutDashboard, Calendar, PlusCircle, LogOut, ExternalLink } from 'lucide-react'
 
 const links = [
   { href: '/admin', label: 'Dashboard', icone: LayoutDashboard },
@@ -26,7 +26,7 @@ export default function AdminSidebar() {
     <aside className="w-64 bg-plum text-white flex flex-col min-h-screen">
       <div className="p-6 border-b border-plum-light">
         <div className="flex items-center gap-2">
-          <Leaf className="w-6 h-6 text-terra" />
+          <img src="/logo.svg" alt="Intuir Yoga" className="w-7 h-7" />
           <div>
             <p className="font-bold text-white text-sm">Intuir Yoga</p>
             <p className="text-cream/50 text-xs">Painel Admin</p>

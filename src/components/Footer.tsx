@@ -1,4 +1,4 @@
-import { Leaf, Phone, Mail, MapPin, AtSign } from 'lucide-react'
+import { Phone, Mail, MapPin, AtSign } from 'lucide-react'
 import Link from 'next/link'
 
 export default function Footer() {
@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Leaf className="w-5 h-5 text-terra" />
+            <img src="/logo.svg" alt="Intuir Yoga" className="w-7 h-7" />
             <span className="text-lg font-bold text-white">Intuir Yoga</span>
           </div>
           <p className="text-cream/70 text-sm leading-relaxed">
