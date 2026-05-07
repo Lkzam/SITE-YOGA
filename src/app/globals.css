@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --cream: #f7f5f2;
-  --cream-dark: #ede9e3;
+  --cream: #fefae0;
+  --cream-dark: #faedcd;
   --plum: #290f27;
   --plum-light: #3d1a3a;
-  --sage: #c6d6c5;
-  --sage-light: #e8edea;
-  --terra: #d9a48e;
-  --terra-hover: #c9927b;
+  --sage: #ccd5ae;
+  --sage-light: #e9edc9;
+  --terra: #d4a373;
+  --terra-hover: #bf8860;
   --muted: #a8a8a8;
 
   /* Legado (admin) */

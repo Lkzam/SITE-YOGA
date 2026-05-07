@@ -39,11 +39,7 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex justify-center">
-            <div className="w-72 h-72 md:w-96 md:h-96 rounded-full bg-terra/10 border-4 border-terra/20 flex items-center justify-center backdrop-blur-sm">
-              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full bg-sage/10 border-2 border-sage/20 flex items-center justify-center">
-                <img src="/logo.svg" alt="Intuir Yoga" className="w-36 h-36 md:w-48 md:h-48" />
-              </div>
-            </div>
+            <img src="/logo.svg" alt="Intuir Yoga" className="w-56 h-56 md:w-72 md:h-72" />
           </div>
         </div>
       </section>

@@ -24,10 +24,10 @@ const config: Config = {
         },
         // Nova paleta da marca
         terra: {
-          DEFAULT: '#d9a48e',
-          light: '#f5e8e0',
-          hover: '#c9927b',
-          dark: '#b87a64',
+          DEFAULT: '#d4a373',
+          light: '#faedcd',
+          hover: '#bf8860',
+          dark: '#a8724e',
         },
         plum: {
           DEFAULT: '#290f27',
@@ -37,14 +37,14 @@ const config: Config = {
           100: '#e8d5e8',
         },
         sage: {
-          DEFAULT: '#c6d6c5',
-          light: '#e8edea',
-          dark: '#a8b8a7',
-          50: '#f0f3f0',
+          DEFAULT: '#ccd5ae',
+          light: '#e9edc9',
+          dark: '#b5c098',
+          50: '#f4f7ec',
         },
         cream: {
-          DEFAULT: '#f7f5f2',
-          dark: '#ede9e3',
+          DEFAULT: '#fefae0',
+          dark: '#faedcd',
         },
         muted: '#a8a8a8',
       },
