@@ -11,16 +11,15 @@ export default function Footer() {
             <span className="text-lg font-bold text-plum">Intuir Yoga</span>
           </div>
           <p className="text-plum/70 text-sm leading-relaxed">
-            Intuir Yoga com Millena Bonomi — Encontre equilíbrio, paz e bem-estar
-            através da prática de experiências com yoga. Para todos os níveis,
-            do iniciante ao avançado.
+            Intuir Yoga com Millena Bonomi<br />
+            Encontre equilíbrio, paz e bem-estar através da prática de experiências
+            com yoga. Aulas para todos os níveis, do iniciante ao avançado.
           </p>
         </div>
 
         <div>
           <h3 className="text-plum font-semibold mb-4">Links Rápidos</h3>
           <div className="flex flex-col gap-2">
-            <Link href="/" className="text-plum/70 hover:text-terra-dark text-sm transition-colors">Início</Link>
             <Link href="/#sobre" className="text-plum/70 hover:text-terra-dark text-sm transition-colors">Sobre Intuir Yoga</Link>
             <Link href="/aulas" className="text-plum/70 hover:text-terra-dark text-sm transition-colors">Comprar evento</Link>
           </div>

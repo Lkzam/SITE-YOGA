@@ -5,8 +5,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Yoga com Ana — Encontre seu equilíbrio',
-  description: 'Aulas de yoga para todos os níveis. Reserve sua vaga online.',
+  title: 'Intuir Yoga',
+  description: 'Experiências de yoga com Millena Bonomi. Reserve sua vaga online.',
 }
 
 export default function RootLayout({

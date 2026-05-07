@@ -39,7 +39,7 @@ export default function Home() {
           </div>
 
           <div className="flex-1 flex justify-center">
-            <img src="/logo.svg" alt="Intuir Yoga" className="w-56 h-56 md:w-72 md:h-72" />
+            <img src="/logo.svg" alt="Intuir Yoga" className="w-72 h-72 md:w-[420px] md:h-[420px]" />
           </div>
         </div>
       </section>
@@ -68,18 +68,12 @@ export default function Home() {
       <section id="sobre" className="max-w-6xl mx-auto px-4 py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div className="flex justify-center md:sticky md:top-24">
-            <div className="relative">
-              <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden">
-                <img
-                  src="/millena-bonomi.jpg"
-                  alt="Millena Bonomi — Instrutora de Yoga"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-lg p-4 border border-sage">
-                <p className="text-plum font-bold text-sm">Millena Bonomi</p>
-                <p className="text-muted text-xs">Professora de Yoga</p>
-              </div>
+            <div className="w-72 h-72 md:w-80 md:h-80 rounded-3xl overflow-hidden">
+              <img
+                src="/millena-bonomi.jpg"
+                alt="Millena Bonomi — Professora de Yoga"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
@@ -91,42 +85,57 @@ export default function Home() {
 
             <div className="flex flex-col gap-4 text-gray-600 leading-relaxed text-sm">
               <p>
-                Meu nome é Millena Bonomi, tenho 46 anos e pratico yoga desde 2004.
-                Ao longo dessa trajetória, me formei em Hatha Yoga, Vinyasa Yoga e Yin Yoga,
-                além de diversas especializações que sustentam uma prática segura, consciente
-                e adaptável a diferentes corpos e momentos de vida.
+                Sou Millena Bonomi e encontrei no yoga muito mais do que uma prática —
+                encontrei um caminho de reconexão comigo mesma.
               </p>
               <p>
-                Minha jornada pessoal, incluindo o enfrentamento do câncer de mama,
-                transformou profundamente a forma como ensino. Hoje, conduzo práticas que
-                vão além do movimento: são experiências de escuta, presença e reconexão.
+                Pratico yoga desde 2004 e, ao longo desses anos, me formei em Hatha Yoga,
+                Vinyasa Yoga e Yin Yoga, além de diversas especializações que sustentam uma
+                condução segura, consciente e adaptável a diferentes corpos e momentos de vida.
               </p>
               <p>
-                Acredito que o yoga precisa ser acessível, possível e real. Por isso,
-                meu trabalho é voltado especialmente para pessoas que buscam:
+                Mas foi a minha própria história que transformou profundamente a forma como ensino.
+                Durante o enfrentamento do câncer de mama, o yoga deixou de ser apenas movimento
+                e tornou-se acolhimento, presença, respiração e força nos dias mais difíceis.
+                Foi através da prática que aprendi a respeitar meus limites sem perder a conexão
+                com quem eu sou.
               </p>
+              <p>
+                Hoje, cada aula que conduzo carrega essa vivência real.
+              </p>
+              <p>
+                Acredito que o yoga precisa ser acessível, humano e possível. Não sobre
+                performance, mas sobre presença. Não sobre alcançar uma forma perfeita, mas
+                sobre aprender a habitar o próprio corpo com mais gentileza.
+              </p>
+              <p>Por isso, meu trabalho é voltado especialmente para pessoas que desejam:</p>
               <ul className="flex flex-col gap-1.5 pl-2">
                 {[
-                  'Reduzir o estresse e ansiedade',
+                  'Reduzir o estresse e a ansiedade',
                   'Reconectar-se com o próprio corpo',
-                  'Respeitar seus limites sem abrir mão do cuidado',
-                  'Criar uma rotina de autocuidado sustentável',
+                  'Respeitar seus limites sem abrir mão do autocuidado',
+                  'Criar uma rotina mais leve, consciente e sustentável',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-2">
-                    <span className="text-terra mt-0.5 shrink-0">—</span>
+                    <span className="text-terra mt-0.5 shrink-0">•</span>
                     <span>{item}</span>
                   </li>
                 ))}
               </ul>
               <p>
-                No Intuir Yoga, você encontra práticas que respeitam o seu tempo, o seu
-                corpo e a sua história — seja você iniciante, praticante ou alguém
-                atravessando um momento desafiador.
+                No Intuir Yoga, cada prática respeita o seu tempo, o seu corpo e a sua
+                história — seja você iniciante, praticante ou alguém atravessando um momento
+                desafiador da vida.
+              </p>
+              <p>
+                Meu propósito é ampliar o acesso ao yoga de forma acolhedora e transformadora,
+                criando experiências que vão além do tapete: experiências de escuta, respiração,
+                presença e reconexão.
               </p>
               <p className="text-plum font-medium italic">
-                &ldquo;Se o yoga foi uma ferramenta essencial na minha jornada de cura e
-                reconstrução, hoje ele se torna também o caminho que compartilho para apoiar
-                outras pessoas em seus próprios processos.&rdquo;
+                &ldquo;Se o yoga foi parte essencial da minha jornada de cura e reconstrução,
+                hoje ele se torna também o caminho que compartilho para apoiar outras pessoas
+                em seus próprios processos.&rdquo;
               </p>
             </div>
 
@@ -141,71 +150,87 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Experiências */}
+      {/* Yoga na Natureza */}
       <section id="aulas-info" className="bg-cream-dark py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-4">
-            <span className="text-terra font-semibold text-sm uppercase tracking-widest">Modalidades</span>
             <h2 className="text-3xl md:text-4xl font-bold text-plum mt-2 mb-4">
-              Experiências de Yoga na Natureza
+              Yoga na Natureza
             </h2>
           </div>
 
           {/* Texto introdutório */}
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <p className="text-gray-600 leading-relaxed mb-4">
-              Mais do que uma prática, são experiências. Crio encontros que unem yoga,
-              natureza e presença para quem sente a necessidade de pausar, respirar e se reconectar.
-            </p>
-            <p className="text-gray-600 leading-relaxed mb-4">
-              São vivências pensadas para desacelerar o ritmo, sair do automático e voltar
-              para o corpo. Em meio ao verde, ao silêncio e aos ciclos naturais, o yoga
-              ganha um novo significado.
-            </p>
-            <p className="text-plum font-medium italic">
-              Você não precisa ter experiência. Precisa apenas estar disposto a sentir.
-            </p>
-          </div>
-
-          {/* O que esperar */}
-          <div className="bg-white rounded-2xl border border-sage p-6 mb-12 max-w-2xl mx-auto">
-            <p className="text-plum font-semibold mb-3 text-center">Durante os encontros, você pode esperar:</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {[
-                'Práticas acessíveis e acolhedoras',
-                'Conexão com a respiração e com o corpo',
-                'Momentos de contemplação e silêncio',
-                'Trocas leves e verdadeiras',
-                'Experiências que nutrem de dentro para fora',
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-2 text-sm text-gray-600">
-                  <span className="text-terra mt-0.5 shrink-0">✦</span>
-                  <span>{item}</span>
-                </div>
-              ))}
+            <div className="flex flex-col gap-4 text-gray-600 leading-relaxed text-sm text-left">
+              <p>
+                Mais do que aulas, são experiências de presença, conexão e reconexão consigo mesmo.
+                Crio encontros que unem yoga, natureza e sensibilidade para pessoas que sentem a
+                necessidade de pausar o ritmo acelerado da vida, respirar com mais consciência e
+                voltar para dentro.
+              </p>
+              <p>
+                São vivências pensadas para desacelerar, sair do automático e lembrar que o corpo
+                também precisa de cuidado, silêncio e presença.
+              </p>
+              <p>
+                Em meio ao verde, aos ciclos naturais e à simplicidade dos encontros verdadeiros,
+                o yoga ganha um novo significado. Ele deixa de ser apenas prática e se transforma
+                em experiência.
+              </p>
+              <p className="font-medium text-plum">
+                Não é sobre performance.<br />
+                Não é sobre flexibilidade.<br />
+                É sobre sentir.
+              </p>
+              <p>
+                Você não precisa ter experiência com yoga.<br />
+                Precisa apenas permitir-se viver esse momento.
+              </p>
+              <p>Durante o encontro, você vai vivenciar:</p>
+              <ul className="flex flex-col gap-1.5 pl-2">
+                {[
+                  'práticas acessíveis, acolhedoras e adaptáveis',
+                  'conexão com a respiração e com o corpo',
+                  'momentos de contemplação, silêncio e pausa',
+                  'trocas leves, humanas e verdadeiras',
+                  'experiências que nutrem de dentro para fora',
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-2">
+                    <span className="text-terra mt-0.5 shrink-0">•</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="text-plum font-medium italic">
+                Cada evento é único, porque cada pessoa chega com sua própria história.
+                Se você sente que precisa de mais presença, leveza e sentido na rotina,
+                talvez esse encontro seja exatamente o convite que o seu corpo e a sua alma
+                estavam esperando.
+              </p>
             </div>
           </div>
 
-          {/* 3 Experiências */}
+          {/* Cards de Experiências */}
+          <h3 className="text-2xl font-bold text-plum text-center mb-8">Experiências</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 icone: <Sunrise className="w-8 h-8 text-terra" />,
                 titulo: 'CALMARIA',
                 cor: 'from-terra-light to-cream',
-                desc: 'Uma experiência de yoga para desacelerar e se reconectar, realizada na Padoca do Vila, em Joaquim Egídio, sob a sombra de um frondoso jatobá.',
+                desc: 'É uma experiência de yoga para desacelerar e se reconectar, realizada na Padoca do Vila, em Joaquim Egídio, sob a sombra de um frondoso jatobá.',
               },
               {
                 icone: <Wind className="w-8 h-8 text-terra" />,
                 titulo: 'AmaheSer',
                 cor: 'from-sage-light to-cream',
-                desc: 'Um evento de yoga ao nascer do sol, realizado no ponto mais alto do Pico das Cabras, em Joaquim Egídio. Uma experiência que une yoga, meditação e relaxamento para despertar o corpo com suavidade enquanto o dia nasce.',
+                desc: 'É uma experiência de yoga ao nascer do sol, realizado no ponto mais alto do Pico das Cabras, em Joaquim Egídio. Uma experiência que une práticas de yoga, meditação e relaxamento, convidando você a despertar o corpo com suavidade e acalmar a mente enquanto o dia nasce. Em meio à natureza e com uma vista especial, é um momento para respirar, se reconectar e começar o dia com presença e leveza.',
               },
               {
                 icone: <Moon className="w-8 h-8 text-terra" />,
                 titulo: 'EntardeSer',
                 cor: 'from-plum-100 to-cream',
-                desc: 'Um ritual de fim de dia. Um encontro com o yoga ao pôr do sol para se recolher, soltar o excesso e voltar para dentro com calma e presença.',
+                desc: 'É uma experiência de yoga ao pôr do sol para se recolher, soltar o excesso e voltar para dentro com calma e presença.',
               },
             ].map((exp) => (
               <div key={exp.titulo} className={`bg-gradient-to-br ${exp.cor} rounded-2xl p-6 border border-sage hover:shadow-md transition-shadow`}>
@@ -217,34 +242,28 @@ export default function Home() {
               </div>
             ))}
           </div>
-
-          <p className="text-center text-gray-500 text-sm mt-8 italic">
-            Cada evento é único, mas todos têm o mesmo propósito: oferecer um espaço seguro para você se reconectar com você mesmo.
-          </p>
         </div>
       </section>
 
-      {/* Depoimentos */}
+      {/* Relatos */}
       <section className="max-w-6xl mx-auto px-4 py-20">
         <div className="text-center mb-12">
-          <span className="text-terra font-semibold text-sm uppercase tracking-widest">Depoimentos</span>
-          <h2 className="text-3xl font-bold text-plum mt-2">O que dizem nossos alunos</h2>
+          <h2 className="text-3xl font-bold text-plum tracking-widest uppercase">Relatos</h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { nome: 'Maria S.', texto: 'As aulas da Millena mudaram minha vida! Em 3 meses já sinto muito mais flexibilidade e paz interior.', estrelas: 5 },
-            { nome: 'João P.', texto: 'Nunca imaginei que ia me apaixonar pelo yoga. A Millena tem um jeito único de ensinar que faz tudo parecer natural.', estrelas: 5 },
-            { nome: 'Carla M.', texto: 'A experiência foi essencial para minha recuperação. Ambiente acolhedor e professora incrível!', estrelas: 5 },
-          ].map((dep) => (
-            <div key={dep.nome} className="bg-white rounded-2xl shadow-sm border border-sage p-6">
+            { texto: 'Estava em busca de uma experiência inesquecível e encontrei o AmanheSer. Juro me faltam palavras… que evento fantástico! Millena você é luz e transmite isso o tempo todo. Sua alma é leve e eu amei cruzar o seu caminho.' },
+            { texto: 'O Calmaria foi um presente de autocuidado. Obrigada pela condução gentil.' },
+            { texto: 'Eu nunca tinha praticado yoga, mas o AmanheSer me despertou essa vontade. Foi uma experiência incrível.' },
+          ].map((dep, i) => (
+            <div key={i} className="bg-white rounded-2xl shadow-sm border border-sage p-6">
               <div className="flex gap-1 mb-3">
-                {Array(dep.estrelas).fill(0).map((_, i) => (
-                  <Star key={i} size={14} className="text-terra fill-terra" />
+                {Array(5).fill(0).map((_, j) => (
+                  <Star key={j} size={14} className="text-terra fill-terra" />
                 ))}
               </div>
-              <p className="text-gray-600 text-sm leading-relaxed mb-4">&ldquo;{dep.texto}&rdquo;</p>
-              <p className="text-plum font-semibold text-sm">— {dep.nome}</p>
+              <p className="text-gray-600 text-sm leading-relaxed">&ldquo;{dep.texto}&rdquo;</p>
             </div>
           ))}
         </div>
@@ -254,10 +273,10 @@ export default function Home() {
       <section className="bg-sage py-16">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-plum mb-4">
-            Pronta para começar sua jornada?
+            Vamos viver essa experiência?
           </h2>
           <p className="text-plum/70 mb-8 text-lg">
-            Reserve sua vaga em um de nossos eventos e dê o primeiro passo rumo a mais presença e equilíbrio.
+            Reserve sua experiência e dê o primeiro passo rumo a mais presença e equilíbrio.
           </p>
           <Link
             href="/aulas"
