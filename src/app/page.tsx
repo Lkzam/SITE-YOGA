@@ -15,7 +15,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <LightRays
             raysOrigin="top-center"
-            raysColor="#d4a373"
+            raysColor="#ffffff"
             raysSpeed={1}
             lightSpread={0.5}
             rayLength={3}
