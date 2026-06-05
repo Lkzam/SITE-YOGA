@@ -1,6 +1,5 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import LightRays from '@/components/LightRays'
 import Link from 'next/link'
 import { Heart, Star, Users, ChevronRight, Wind, Sunrise, Moon } from 'lucide-react'
 
@@ -10,26 +9,8 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative bg-sage overflow-hidden">
-        {/* LightRays animado no fundo */}
-        <div className="absolute inset-0 z-0">
-          <LightRays
-            raysOrigin="top-center"
-            raysColor="#ffffff"
-            raysSpeed={1}
-            lightSpread={0.5}
-            rayLength={3}
-            followMouse={true}
-            mouseInfluence={0.1}
-            noiseAmount={0}
-            distortion={0}
-            pulsating={false}
-            fadeDistance={1}
-            saturation={1.8}
-          />
-        </div>
-        {/* Conteúdo acima do efeito */}
-        <div className="relative z-10 max-w-6xl mx-auto px-4 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
+      <section className="bg-sage">
+        <div className="max-w-6xl mx-auto px-4 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 text-center md:text-left">
             <span className="inline-block bg-terra/20 text-terra-dark border border-terra/30 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               Bem-vindo ao seu espaço de paz
