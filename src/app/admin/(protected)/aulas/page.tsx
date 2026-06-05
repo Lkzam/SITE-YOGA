@@ -1,7 +1,7 @@
 import { createServiceClient } from '@/lib/supabase-server'
 import Link from 'next/link'
 import { PlusCircle, Calendar } from 'lucide-react'
-import AulaAdminActions from './AulaAdminActions'
+import AulaRowExpand from './AulaRowExpand'
 
 export default async function AdminAulasPage() {
   const supabase = createServiceClient()
@@ -16,7 +16,7 @@ export default async function AdminAulasPage() {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Gerenciar Aulas</h1>
-          <p className="text-gray-500 text-sm">Todas as aulas cadastradas</p>
+          <p className="text-gray-500 text-sm">Clique em uma aula para ver os alunos inscritos</p>
         </div>
         <Link href="/admin/aulas/nova" className="btn-admin text-sm">
           <span className="flex items-center gap-2"><PlusCircle size={16} /> Nova Aula</span>
@@ -40,52 +40,7 @@ export default async function AdminAulasPage() {
               </thead>
               <tbody>
                 {aulas.map((aula) => (
-                  <tr key={aula.id} className="border-b border-gray-50 hover:bg-gray-50/50">
-                    <td className="px-6 py-4">
-                      <p className="font-medium text-gray-800 text-sm">{aula.titulo}</p>
-                      {aula.descricao && (
-                        <p className="text-gray-400 text-xs truncate max-w-48">{aula.descricao}</p>
-                      )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm text-gray-700">{aula.data}</p>
-                      <p className="text-xs text-gray-400">{aula.horario.slice(0, 5)}</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm text-gray-700 max-w-32 truncate">{aula.localizacao}</p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                        aula.vagas_disponiveis === 0 ? 'bg-red-100 text-red-600'
-                        : aula.vagas_disponiveis <= 3 ? 'bg-orange-100 text-orange-600'
-                        : 'bg-green-100 text-green-600'
-                      }`}>
-                        {aula.vagas_disponiveis}/{aula.vagas_total}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="text-sm font-semibold text-green-700">
-                        R$ {aula.preco.toFixed(2).replace('.', ',')}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-col gap-1">
-                        <span className={`text-xs px-2 py-1 rounded-full font-medium w-fit ${
-                          aula.ativa ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-500'
-                        }`}>
-                          {aula.ativa ? 'Ativa' : 'Inativa'}
-                        </span>
-                        {aula.prevenda && aula.prevenda_token && (
-                          <span className="text-xs px-2 py-1 rounded-full font-medium bg-orange-100 text-orange-600 font-mono w-fit">
-                            🔑 {aula.prevenda_token}
-                          </span>
-                        )}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <AulaAdminActions aulaId={aula.id} ativa={aula.ativa} />
-                    </td>
-                  </tr>
+                  <AulaRowExpand key={aula.id} aula={aula} />
                 ))}
               </tbody>
             </table>
