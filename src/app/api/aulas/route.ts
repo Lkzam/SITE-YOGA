@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createServiceClient } from '@/lib/supabase-server'
+import { createClient, createServiceClient } from '@/lib/supabase-server'
 
 export async function GET(request: NextRequest) {
   const supabase = createServiceClient()
@@ -31,12 +31,13 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const supabase = createServiceClient()
-
-  const { data: { user } } = await supabase.auth.getUser()
+  const authClient = await createClient()
+  const { data: { user } } = await authClient.auth.getUser()
   if (!user) {
     return NextResponse.json({ erro: 'Não autorizado' }, { status: 401 })
   }
+
+  const supabase = createServiceClient()
 
   const body = await request.json()
   const { titulo, descricao, data, horario, localizacao, vagas_total, preco } = body
