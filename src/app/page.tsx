@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import HeroVideo from '@/components/HeroVideo'
 import Link from 'next/link'
 import { Heart, Star, Users, ChevronRight, Wind, Sunrise, Moon } from 'lucide-react'
 
@@ -9,18 +10,23 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="bg-sage">
-        <div className="max-w-6xl mx-auto px-4 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
+      <section className="relative overflow-hidden bg-sage">
+        {/* Vídeo de fundo com loop ping-pong */}
+        <HeroVideo />
+        {/* Overlay para legibilidade do texto sobre o vídeo */}
+        <div className="absolute inset-0 z-[1] bg-gradient-to-r from-black/65 via-black/40 to-black/20" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-4 py-24 md:py-32 flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 text-center md:text-left">
-            <span className="inline-block bg-terra/20 text-terra-dark border border-terra/30 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+            <span className="inline-block bg-white/10 backdrop-blur-sm text-cream border border-white/25 text-sm font-medium px-4 py-1.5 rounded-full mb-6">
               Bem-vindo ao seu espaço de paz
             </span>
-            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-plum">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 text-white drop-shadow-lg">
               Experiências de yoga para{' '}
-              <span className="text-terra-dark">transformar</span>{' '}
+              <span className="text-terra">transformar</span>{' '}
               seu dia
             </h1>
-            <p className="text-plum/70 text-lg mb-8 max-w-md leading-relaxed">
+            <p className="text-white/85 text-lg mb-8 max-w-md leading-relaxed drop-shadow">
               Mais do que uma aula, um convite para pausar, respirar e se reconectar.
               Práticas acessíveis, em cenários inspiradores, para todos os níveis.
             </p>
@@ -28,14 +34,14 @@ export default function Home() {
               <Link href="/aulas" className="bg-terra hover:bg-terra-hover text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2">
                 Ver eventos disponíveis <ChevronRight size={18} />
               </Link>
-              <Link href="#sobre" className="border-2 border-plum/30 text-plum hover:bg-plum/10 font-semibold py-3 px-8 rounded-xl transition-all text-center">
+              <Link href="#sobre" className="border-2 border-white/50 text-white hover:bg-white/10 font-semibold py-3 px-8 rounded-xl transition-all text-center backdrop-blur-sm">
                 Conhecer a Professora
               </Link>
             </div>
           </div>
 
           <div className="flex-1 flex justify-center">
-            <img src="/logo.svg" alt="Intuir Yoga" className="w-72 h-72 md:w-[420px] md:h-[420px]" />
+            <img src="/logo.svg" alt="Intuir Yoga" className="w-72 h-72 md:w-[420px] md:h-[420px] drop-shadow-2xl" />
           </div>
         </div>
       </section>
