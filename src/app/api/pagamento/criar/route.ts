@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
-import { criarCobranca } from '@/lib/abacatepay'
+import { criarCobranca } from '@/lib/asaas'
 import { randomUUID } from 'crypto'
 
 export async function POST(request: NextRequest) {
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
     .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
 
   try {
-    // Cria cobrança PIX transparente no AbacatePay v2
+    // Cria cobrança PIX no Asaas
     const cobranca = await criarCobranca({
       valor: Math.round(precoFinal * 100), // converte para centavos
       descricao: `${aula.titulo} — ${aula.data} às ${aula.horario.slice(0, 5)}${emPrevenda ? ' (Pré-venda)' : ''}`,

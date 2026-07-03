@@ -416,7 +416,7 @@ export default function ReservarPage() {
               </div>
               <div className="mt-3 flex items-center gap-2 text-xs text-gray-500">
                 <Lock size={12} />
-                <span>Pagamento seguro via PIX — AbacatePay</span>
+                <span>Pagamento seguro via PIX — Asaas</span>
               </div>
             </div>
           </div>
