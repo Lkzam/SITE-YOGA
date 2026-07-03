@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
       cliente_telefone: telefone,
       cliente_cpf: cpf.replace(/\D/g, ''),
       status: 'pendente',
+      created_at: new Date().toISOString(),
     })
     .select()
     .single()

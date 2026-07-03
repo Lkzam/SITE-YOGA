@@ -181,17 +181,19 @@ export default function AulaRowExpand({ aula }: { aula: Aula }) {
                         <td className="px-4 py-3 text-sm text-gray-600">{r.cliente_telefone}</td>
                         <td className="px-4 py-3">
                           <span className="text-sm font-semibold text-green-700">
-                            R$ {(r.valor_pago ?? 0).toFixed(2).replace('.', ',')}
+                            R$ {Number(r.valor_pago ?? 0).toFixed(2).replace('.', ',')}
                           </span>
                         </td>
                         <td className="px-4 py-3 text-xs text-gray-400">
-                          {new Date(r.created_at).toLocaleDateString('pt-BR', {
-                            day: '2-digit',
-                            month: '2-digit',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                          })}
+                          {r.created_at
+                            ? new Date(r.created_at).toLocaleDateString('pt-BR', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })
+                            : '—'}
                         </td>
                       </tr>
                     ))}
