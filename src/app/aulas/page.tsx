@@ -4,7 +4,9 @@ import AulaCard from '@/components/AulaCard'
 import { createServiceClient } from '@/lib/supabase-server'
 import { Calendar } from 'lucide-react'
 
-export const revalidate = 60
+// Sempre renderiza fresh (sem cache) para que aulas recém-criadas/editadas
+// apareçam imediatamente, sem esperar a revalidação nem cache do navegador.
+export const dynamic = 'force-dynamic'
 
 export default async function AulasPage() {
   const supabase = createServiceClient()
