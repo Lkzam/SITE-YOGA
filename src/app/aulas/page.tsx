@@ -9,13 +9,18 @@ export const revalidate = 60
 export default async function AulasPage() {
   const supabase = createServiceClient()
 
-  const hoje = new Date().toISOString().split('T')[0]
+  // A aula fica à venda desde que é postada e SOME um dia antes do evento.
+  // Ex.: evento no dia 25 → deixa de aparecer no dia 24.
+  // Mostramos apenas aulas cuja data seja maior que amanhã (data > hoje + 1 dia).
+  const amanha = new Date()
+  amanha.setDate(amanha.getDate() + 1)
+  const limite = amanha.toISOString().split('T')[0]
 
   const { data: aulas, error } = await supabase
     .from('aulas')
     .select('*')
     .eq('ativa', true)
-    .gte('data', hoje)
+    .gt('data', limite)
     .order('data', { ascending: true })
     .order('horario', { ascending: true })
 

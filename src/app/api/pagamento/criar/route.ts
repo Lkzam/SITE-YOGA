@@ -28,6 +28,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ erro: 'Não há vagas disponíveis para esta aula' }, { status: 400 })
   }
 
+  // Vendas encerram um dia antes do evento (mesma regra da listagem pública).
+  // Bloqueia compra se a data do evento for amanhã ou antes (data <= hoje + 1 dia).
+  const amanha = new Date()
+  amanha.setDate(amanha.getDate() + 1)
+  const limiteVenda = amanha.toISOString().split('T')[0]
+  if (aula.data <= limiteVenda) {
+    return NextResponse.json({ erro: 'As vendas para esta aula já foram encerradas.' }, { status: 400 })
+  }
+
   // Determina o preço correto (pré-venda ou normal)
   const hoje = new Date().toISOString().split('T')[0]
   const emPrevenda = !!(
