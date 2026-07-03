@@ -1,6 +1,29 @@
 const API_URL = process.env.ASAAS_API_URL!
 const API_KEY = process.env.ASAAS_API_KEY!
 
+// Headers padrão para todas as chamadas ao Asaas.
+// O Asaas exige o header access_token e recomenda um User-Agent.
+function headers(extra?: Record<string, string>) {
+  return {
+    access_token: API_KEY,
+    'User-Agent': 'IntuirYoga/1.0',
+    ...extra,
+  }
+}
+
+// Monta uma mensagem de erro útil com o status HTTP e o corpo (se houver).
+async function erroAsaas(contexto: string, res: Response): Promise<Error> {
+  let corpo = ''
+  try {
+    corpo = await res.text()
+  } catch {
+    corpo = ''
+  }
+  const detalhe = corpo || '(resposta sem corpo)'
+  console.error(`Asaas ${contexto} — HTTP ${res.status} ${res.statusText}: ${detalhe}`)
+  return new Error(`Asaas ${contexto} (HTTP ${res.status}): ${detalhe}`)
+}
+
 interface CriarCobrancaParams {
   valor: number // em centavos
   descricao: string
@@ -25,7 +48,7 @@ async function obterOuCriarCliente(cliente: CriarCobrancaParams['cliente']): Pro
 
   // Tenta encontrar cliente existente pelo CPF para evitar duplicatas
   const busca = await fetch(`${API_URL}/customers?cpfCnpj=${cpfLimpo}`, {
-    headers: { 'access_token': API_KEY },
+    headers: headers(),
   })
 
   if (busca.ok) {
@@ -37,10 +60,7 @@ async function obterOuCriarCliente(cliente: CriarCobrancaParams['cliente']): Pro
 
   const res = await fetch(`${API_URL}/customers`, {
     method: 'POST',
-    headers: {
-      'access_token': API_KEY,
-      'Content-Type': 'application/json',
-    },
+    headers: headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       name: cliente.nome,
       email: cliente.email,
@@ -50,8 +70,7 @@ async function obterOuCriarCliente(cliente: CriarCobrancaParams['cliente']): Pro
   })
 
   if (!res.ok) {
-    const erro = await res.text()
-    throw new Error(`Asaas erro ao criar cliente: ${erro}`)
+    throw await erroAsaas('erro ao criar cliente', res)
   }
 
   const data = await res.json()
@@ -67,10 +86,7 @@ export async function criarCobranca(params: CriarCobrancaParams): Promise<Respos
 
   const paymentRes = await fetch(`${API_URL}/payments`, {
     method: 'POST',
-    headers: {
-      'access_token': API_KEY,
-      'Content-Type': 'application/json',
-    },
+    headers: headers({ 'Content-Type': 'application/json' }),
     body: JSON.stringify({
       customer: customerId,
       billingType: 'PIX',
@@ -82,19 +98,17 @@ export async function criarCobranca(params: CriarCobrancaParams): Promise<Respos
   })
 
   if (!paymentRes.ok) {
-    const erro = await paymentRes.text()
-    throw new Error(`Asaas erro ao criar pagamento: ${erro}`)
+    throw await erroAsaas('erro ao criar pagamento', paymentRes)
   }
 
   const payment = await paymentRes.json()
 
   const qrRes = await fetch(`${API_URL}/payments/${payment.id}/pixQrCode`, {
-    headers: { 'access_token': API_KEY },
+    headers: headers(),
   })
 
   if (!qrRes.ok) {
-    const erro = await qrRes.text()
-    throw new Error(`Asaas erro ao buscar QR Code: ${erro}`)
+    throw await erroAsaas('erro ao buscar QR Code', qrRes)
   }
 
   const qr = await qrRes.json()
