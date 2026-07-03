@@ -18,7 +18,9 @@ export default async function AdminDashboard() {
     supabase.from('reservas').select('valor_pago').eq('status', 'pago'),
   ])
 
-  const totalRecebido = reservasPagas?.reduce((acc, r) => acc + (r.valor_pago || 0), 0) || 0
+  // valor_pago vem do Supabase como string (ex: "5"); converte para número
+  // antes de somar, senão o reduce concatena texto e o toFixed abaixo quebra.
+  const totalRecebido = reservasPagas?.reduce((acc, r) => acc + (Number(r.valor_pago) || 0), 0) || 0
 
   const { data: proximasAulas } = await supabase
     .from('aulas')
